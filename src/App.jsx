@@ -7,12 +7,25 @@ import { CiLinkedin } from "react-icons/ci";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { LuMouse } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 
 function App() {
 
+  const [openSection, setOpenSection] = useState("");
+  const [activeTab, setActiveTab] = useState("work");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? "" : section);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
-    <div className='flex'>
+    <div className=''>
       <header className="header" id="header">
         <nav className="nav container">
           <a href="#" className="nav__logo">
@@ -192,25 +205,25 @@ function App() {
       </div>
 
       <section className="skills section" id="skills">
-        <h2 className="section__title">Skills</h2>
-        <span className="section__subtitle">Technical Skillset</span>
-        <div className="skills__container container grid">
-          <div>
-            <div className="skills__content skills__open">
-              <div className="skills__header">
+      <h2 className="section__title">Skills</h2>
+      <span className="section__subtitle">Technical Skillset</span>
+      <div className="skills__container container grid">
+        <div className=''>
+          {/* Direct Taxation Section */}
+          <div className={`skills__content ${openSection === "taxation" ? "skills__open" : "skills__close"} `}>
+            <div className="skills__header flex justify-between items-center " onClick={() => toggleSection("taxation")}>
+              <div>
                 <i className="uil uil-bill skills__icon" />
-                <div>
-                  <h1 className="skills__title">Direct Taxation</h1>
-                  <span className="skills__subtitle">More than 7 years</span>
-                </div>
-                <i className="uil uil-angle-down skills__arrow" />
+                <h1 className="skills__title">Direct Taxation</h1>
+                <span className="skills__subtitle">More than 7 years</span>
               </div>
-              <div className="skills__list grid">
+              <IoIosArrowDown className={`text-[#57b2e0] ${openSection === "taxation" ? "rotate-180" : ""} transition-all duration-300`} />
+            </div>
+            {openSection === "taxation" && (
+              <div className="skills__list grid  ">
                 <div className="skills__data">
                   <div className="skills__titles">
-                    <h3 className="skills__name">
-                      Search, Scrutiny and Appeal Proceedings
-                    </h3>
+                    <h3 className="skills__name">Search, Scrutiny and Appeal Proceedings</h3>
                     <span className="skills__number">80%</span>
                   </div>
                   <div className="skills__bar">
@@ -219,9 +232,7 @@ function App() {
                 </div>
                 <div className="skills__data">
                   <div className="skills__titles">
-                    <h3 className="skills__name">
-                      Faceless E Assessment Proceedings
-                    </h3>
+                    <h3 className="skills__name">Faceless E Assessment Proceedings</h3>
                     <span className="skills__number">80%</span>
                   </div>
                   <div className="skills__bar">
@@ -247,16 +258,20 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="skills__content skills__close">
-              <div className="skills__header">
+            )}
+          </div>
+
+          {/* Audit Management Section */}
+          <div className={`skills__content ${openSection === "audit" ? "skills__open" : "skills__close"}`}>
+            <div className="skills__header flex justify-between items-center" onClick={() => toggleSection("audit")}>
+              <div>
                 <i className="uil uil-file-lock-alt skills__icon" />
-                <div>
-                  <h1 className="skills__title">Audit Management</h1>
-                  <span className="skills__subtitle">More than 7 years</span>
-                </div>
-                <IoIosArrowDown />
+                <h1 className="skills__title">Audit Management</h1>
+                <span className="skills__subtitle">More than 7 years</span>
               </div>
+              <IoIosArrowDown className={`text-[#57b2e0] ${openSection === "audit" ? "rotate-180" : ""} transition-all duration-300`} />
+            </div>
+            {openSection === "audit" && (
               <div className="skills__list grid">
                 <div className="skills__data">
                   <div className="skills__titles">
@@ -295,18 +310,20 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
-          <div>
-            <div className="skills__content skills__close">
-              <div className="skills__header">
+
+          {/* Softwares and Utilities Section */}
+          <div className={`skills__content ${openSection === "software" ? "skills__open" : "skills__close"}`}>
+            <div className="skills__header flex justify-between items-center" onClick={() => toggleSection("software")}>
+              <div>
                 <i className="uil uil-desktop skills__icon" />
-                <div>
-                  <h1 className="skills__title">Softwares and Utilities</h1>
-                  <span className="skills__subtitle">More than 9 years</span>
-                </div>
-                <i className="uil uil-angle-down skills__arrow" />
+                <h1 className="skills__title">Softwares and Utilities</h1>
+                <span className="skills__subtitle">More than 9 years</span>
               </div>
+              <IoIosArrowDown className={`text-[#57b2e0] ${openSection === "software" ? "rotate-180" : ""} transition-all duration-300`} />
+            </div>
+            {openSection === "software" && (
               <div className="skills__list grid">
                 <div className="skills__data">
                   <div className="skills__titles">
@@ -345,10 +362,11 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
 
       <section className="qualification__section section" id="qualification">
@@ -357,15 +375,19 @@ function App() {
         <div className="qualification__container container">
           <div className="qualification__tabs">
             <div
-              className="qualification__button button--flex qualification__active"
-              data-target="#work"
+              className={`qualification__button button--flex ${
+                activeTab === "work" ? "qualification__active" : ""
+              }`}
+              onClick={() => setActiveTab("work")}
             >
               <i className="uil uil-briefcase-alt qualification__icon" />
               Work
             </div>
             <div
-              className="qualification__button button--flex"
-              data-target="#education"
+              className={`qualification__button button--flex ${
+                activeTab === "education" ? "qualification__active" : ""
+              }`}
+              onClick={() => setActiveTab("education")}
             >
               <i className="uil uil-graduation-cap qualification__icon" />
               Education
@@ -374,8 +396,9 @@ function App() {
           <div className="qualification__sections">
             {/*==================== QUALIFICATION CONTENT 1 ====================*/}
             <div
-              className="qualification__content qualification__active"
-              data-content=""
+              className={`qualification__content ${
+                activeTab === "work" ? "qualification__active" : "hidden"
+              }`}
               id="work"
             >
               {/*==================== QUALIFICATION 1 ====================*/}
@@ -448,7 +471,10 @@ function App() {
               </div>
             </div>
             {/*==================== QUALIFICATION CONTENT 2 ====================*/}
-            <div className="qualification__content" data-content="" id="education">
+            <div className={`qualification__content ${
+              activeTab === "education" ? "qualification__active" : " hidden"
+            }`}
+            id="education">
               {/*==================== QUALIFICATION 1 ====================*/}
               <div className="qualification__data">
                 <div>
@@ -512,50 +538,58 @@ function App() {
         <h2 className="section__title">Services</h2>
         <span className="section__subtitle">Freelance Offerings</span>
         <div className="services__container container grid">
-          <div className="services__content">
-            <div>
-              <i className="uil uil-rupee-sign skills__icon" />
-              <h3 className="services__title">
-                Taxation
-                <br />
-              </h3>
-            </div>
-            <span className="button button--flex button--small button--link services__button">
-              View more
-              <i className="uil uil-arrow-right button__icon" />
-            </span>
-            <div className="services__modal">
-              <div className="services__modal-content">
-                <h4 className="services__modal-title">
-                  Direct and Indirect Taxation
-                  <br />
-                </h4>
-                <i className="uil uil-times services__modal-close" />
-                <ul className="services__modal-services grid">
-                  <li className="services__modal-service">
-                    <i className="uil uil-check-circle services__modal-icon" />
-                    <p>Tax Planning and Consultation</p>
-                  </li>
-                  <li className="services__modal-service">
-                    <i className="uil uil-check-circle services__modal-icon" />
-                    <p>Preparation and filing of Tax Returns</p>
-                  </li>
-                  <li className="services__modal-service">
-                    <i className="uil uil-check-circle services__modal-icon" />
-                    <p>Attending Assessment Proceedings</p>
-                  </li>
-                  <li className="services__modal-service">
-                    <i className="uil uil-check-circle services__modal-icon" />
-                    <p>Preparation and filing of Tax Appeals</p>
-                  </li>
-                  <li className="services__modal-service">
-                    <i className="uil uil-check-circle services__modal-icon" />
-                    <p>Attending Appellate Proceedings</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        <div className="services__content">
+      <div>
+        <i className="uil uil-rupee-sign skills__icon" />
+        <h3 className="services__title">
+          Taxation
+          <br />
+        </h3>
+      </div>
+      <span
+        className="button button--flex button--small button--link services__button"
+        onClick={toggleModal}
+      >
+        View more
+        <IoIosArrowRoundForward/>
+      </span>
+      {isModalOpen && (
+        <div className="services__modal">
+          <div className="services__modal-content">
+            <h4 className="services__modal-title">
+              Direct and Indirect Taxation
+              <br />
+            </h4>
+            <i
+              className="uil uil-times services__modal-close"
+              onClick={toggleModal}
+            />
+            <ul className="services__modal-services grid">
+              <li className="services__modal-service">
+                <i className="uil uil-check-circle services__modal-icon" />
+                <p>Tax Planning and Consultation</p>
+              </li>
+              <li className="services__modal-service">
+                <i className="uil uil-check-circle services__modal-icon" />
+                <p>Preparation and filing of Tax Returns</p>
+              </li>
+              <li className="services__modal-service">
+                <i className="uil uil-check-circle services__modal-icon" />
+                <p>Attending Assessment Proceedings</p>
+              </li>
+              <li className="services__modal-service">
+                <i className="uil uil-check-circle services__modal-icon" />
+                <p>Preparation and filing of Tax Appeals</p>
+              </li>
+              <li className="services__modal-service">
+                <i className="uil uil-check-circle services__modal-icon" />
+                <p>Attending Appellate Proceedings</p>
+              </li>
+            </ul>
           </div>
+        </div>
+      )}
+    </div>
           <div className="services__content">
             <div>
               <i className="uil uil-file-lock-alt skills__icon" />
